@@ -1,4 +1,6 @@
 /*Código armado por La Foca Loca S.A. No modificar*/
+@import url('https://fonts.googleapis.com/css?family=Nunito:300,400,600,700&display=swap');
+
 body {
   font-family: Arial, sans-serif;
   width: 940px;
@@ -9,6 +11,7 @@ body {
 ul {
   padding-left: 0;
   list-style: none;
+  margin: 10px 0;
 }
 li {
   padding: 5px 0;
@@ -20,8 +23,29 @@ li::before {
 }
 
 .col-40 h1 {
+  font-family: 'Nunito', sans-serif;
+  font-size: 18px;
+  color: #37C4B3;
+}
+
+.col-40 h2 {
+  font-family: 'Nunito', sans-serif;
+  font-size: 15px;
+  color: #37C4B3;
+  font-weight: 100;
+}
+
+p, li {
+  font-size: 14px;
+  color: #797777;
+  list-style: none;
+}
+
+h3 {
+  margin: 0;
+  font-family: 'Nunito', sans-serif;
   font-size: 20px;
-  color: #E84A5F;
+  color: #0F7669;
 }
 
 .col-40, .col-60 {
@@ -33,15 +57,17 @@ li::before {
   background: #FFF;
   padding: 30px;
   color: #000;
+  width: 40%;
 }
 
 .col-60 {
-  background: #E84A5F;
+  background: #FFE98C;
+  width: 60%;
 
 }
 
 #flecha{
-  font-size: 60px;
+  font-size: 50px;
 }
 
 .texto-centrado {
@@ -57,3 +83,92 @@ li::before {
   from { opacity: 0; }
   to   { opacity: 1; }
 }
+
+/**Estilos tablero**/
+
+#juego {
+  min-width: 300px;
+  width: 600px;
+  height: 600px;
+}
+
+.stylePiece {
+  width: 33.33%;
+  height: 33.33%;
+  float: left;
+}
+
+.stylePiece img {
+  width: 100%;
+  height: 100%;
+}
+
+#objetivo img {
+  width: 50%;
+}
+
+#footer {
+  width: 100%;
+  height: auto;
+  background-color: #f5f5f5;
+  padding: 10px;
+  box-sizing: border-box;
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-around;
+}
+
+#footer img {
+  width: 30px;
+}
+/**Alerta**/
+.alertWinner {
+  position: fixed;
+  background: rgba(0, 0, 0, 0.7);
+  width: 100%;
+  height: 100%;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: none;
+  z-index: 1;
+  transition: opacity 1000ms;
+}
+
+.alertMessage {
+  width: 25%;
+  height: auto;
+  background-color: #d1fedc;
+  margin: 10% auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.alertMessage img {
+  max-width: 299px;
+}
+
+.modalButton {
+  background-color: #fff;
+  padding: 5%;
+  border-radius: 10px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 15px;
+  color: #DC7117;
+  font-weight: 600;
+}
+
+.modalButton:hover {
+  background-color: #DC7117;
+  color: #fff;
+  cursor: pointer;
+}
+
+
+
+
+

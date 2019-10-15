@@ -1,5 +1,9 @@
 // Arreglo que contiene las intrucciones del juego 
-var instrucciones = [];
+var instrucciones = [
+  "Revisa que la imagen objetivo para que tengas presente la imagen final",
+  "Utiliza las flechas para mover las piezas",
+  "Mira tus últimos movimientos y gana!",
+];
 // Arreglo para ir guardando los movimientos que se vayan realizando
 var movimientos = [];
 
@@ -15,27 +19,54 @@ var grilla = [
 Esta posición comienza siendo la [2, 2]*/
 var filaVacia = 2;
 var columnaVacia = 2;
-
+var desordenando = false;
 /* Esta función deberá recorrer el arreglo de instrucciones pasado por parámetro. 
 Cada elemento de este arreglo deberá ser mostrado en la lista con id 'lista-instrucciones'. 
 Para eso deberás usar la función ya implementada mostrarInstruccionEnLista().
 Podés ver su implementación en la ultima parte de este codigo. */
 function mostrarInstrucciones(instrucciones) {
-    //COMPLETAR
+    for (let i= 0; i < instrucciones.length; i++){
+      mostrarInstruccionEnLista(instrucciones[i], "lista-instrucciones");
+    }
 }
+
 
 /* COMPLETAR: Crear función que agregue la última dirección al arreglo de movimientos
 y utilice actualizarUltimoMovimiento para mostrarlo en pantalla */
+function lastMovement(movement) {
+  if(!desordenando) {
+    movimientos.push(movement);
+    actualizarUltimoMovimiento(movement);
+  }
+}
 
 /* Esta función va a chequear si el Rompecabezas esta en la posicion ganadora. 
 Existen diferentes formas de hacer este chequeo a partir de la grilla. */
 function chequearSiGano() {
-    //COMPLETAR
-}
+    let grillaOriginal = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+    let grillaActual = [];
+    for (let i = 0; i < grilla.length; i++){
+      for (let j = 0; j < grilla[i].length; j++){
+        grillaActual.push(grilla[i][j]);
+          }
+        }
+        if(JSON.stringify(grillaActual) == JSON.stringify(grillaOriginal)){
+          mostrarCartelGanador();
+        }
+      }
 
 // Implementar alguna forma de mostrar un cartel que avise que ganaste el juego
 function mostrarCartelGanador() {
-    //COMPLETAR
+  let popup = document.getElementById("popup");
+  let numberMovements = document.getElementById("numeroMovimientos");
+  popup.style.display = "block";
+  numberMovements.textContent = movimientos.length;
+}
+let buttonModal = document.getElementById("buttonPopup");
+buttonModal.onclick = function() {
+  popup.style.display = "none";
+  mezclarPiezas(30);
+  movimientos = [];
 }
 
 /* Función que intercambia dos posiciones en la grilla.
@@ -49,18 +80,25 @@ En vez de intercambiar esos valores vamos a terminar teniendo en ambas posicione
 Se te ocurre cómo solucionar esto con una variable temporal?
 */
 function intercambiarPosicionesGrilla(filaPos1, columnaPos1, filaPos2, columnaPos2) {
-    //COMPLETAR
+    let firstPosition = grilla[filaPos1][columnaPos1];
+    let secondPosition = grilla[filaPos2][columnaPos2];
+    grilla[filaPos1][columnaPos1] = secondPosition;
+    grilla[filaPos2][columnaPos2] = firstPosition;
 }
 
 // Actualiza la posición de la pieza vacía
 function actualizarPosicionVacia(nuevaFila, nuevaColumna) {
-    //COMPLETAR
+    filaVacia = nuevaFila;
+    columnaVacia = nuevaColumna;
 }
 
 
 // Para chequear si la posicón está dentro de la grilla.
 function posicionValida(fila, columna) {
-    //COMPLETAR
+  if (fila >= 0 && fila <= 2 && columna >= 0 && columna <= 2){
+      return true;
+    }
+    return false;
 }
 
 /* Movimiento de fichas, en este caso la que se mueve es la blanca intercambiando su posición con otro elemento.
@@ -83,12 +121,14 @@ function moverEnDireccion(direccion) {
     
   // Mueve pieza hacia la derecha, reemplazandola con la blanca
   else if (direccion === codigosDireccion.DERECHA) {
-    //COMPLETAR
+    nuevaFilaPiezaVacia = filaVacia;
+    nuevaColumnaPiezaVacia = columnaVacia -1;
   }
     
   // Mueve pieza hacia la izquierda, reemplazandola con la blanca
   else if (direccion === codigosDireccion.IZQUIERDA) {
-    // COMPLETAR
+    nuevaFilaPiezaVacia = filaVacia;
+    nuevaColumnaPiezaVacia = columnaVacia +1;
   }
 
   /* A continuación se chequea si la nueva posición es válida, si lo es, se intercambia. 
@@ -98,11 +138,11 @@ function moverEnDireccion(direccion) {
     if (posicionValida(nuevaFilaPiezaVacia, nuevaColumnaPiezaVacia)) {
         intercambiarPosiciones(filaVacia, columnaVacia, nuevaFilaPiezaVacia, nuevaColumnaPiezaVacia);
         actualizarPosicionVacia(nuevaFilaPiezaVacia, nuevaColumnaPiezaVacia);
-
-  //COMPLETAR: Agregar la dirección del movimiento al arreglo de movimientos
-
+        lastMovement(direccion);
+        
     }
 }
+
 
 
 //////////////////////////////////////////////////////////
@@ -192,7 +232,9 @@ Se calcula una posición aleatoria y se mueve en esa dirección. De esta forma
 se mezclará todo el tablero. */
 
 function mezclarPiezas(veces) {
+  desordenando = true;
   if (veces <= 0) {
+    desordenando = false;
     return;
   }
   
